@@ -1,6 +1,3 @@
-# Copyright 2026 Dat Dinh Trong
-# Licensed under the Apache License, Version 2.0
-
 import os
 import sys
 import shutil

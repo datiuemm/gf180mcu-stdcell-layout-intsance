@@ -1,6 +1,3 @@
-# Copyright 2026 Dat Dinh Trong
-# Licensed under the Apache License, Version 2.0
-
 import os
 import sys
 import shutil
@@ -43,12 +40,10 @@ def update_init_file():
         sys.stderr.write(f"Error: Failed to read __init__.py. Details: {str(e)}\n")
         sys.exit(1)
 
-    # Đọc toàn bộ nội dung dưới dạng một chuỗi văn bản để check trùng tuyệt đối
     full_content = "".join(lines)
     has_import = "from .grid import stdcell_grid" in full_content
     has_register = '.register_pcell("stdcell_grid"' in full_content
 
-    # Nếu cả 2 dòng cần thêm đều đã tồn tại, script thoát im lặng (Chống add lặp)
     if has_import and has_register:
         sys.exit(0)
 
