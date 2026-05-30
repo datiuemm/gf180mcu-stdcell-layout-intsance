@@ -1,3 +1,6 @@
+# Copyright 2026 Dat Dinh Trong
+# Licensed under the Apache License, Version 2.0
+
 import os
 import sys
 import shutil
@@ -34,6 +37,22 @@ def update_init_file():
         sys.exit(1)
 
     try:
+        with open(init_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+    except Exception as e:
+        sys.stderr.write(f"Error: Failed to read __init__.py. Details: {str(e)}\n")
+        sys.exit(1)
+
+    # Đọc toàn bộ nội dung dưới dạng một chuỗi văn bản để check trùng tuyệt đối
+    full_content = "".join(lines)
+    has_import = "from .grid import stdcell_grid" in full_content
+    has_register = '.register_pcell("stdcell_grid"' in full_content
+
+    # Nếu cả 2 dòng cần thêm đều đã tồn tại, script thoát im lặng (Chống add lặp)
+    if has_import and has_register:
+        sys.exit(0)
+
+    try:
         backup_file = init_file + ".bak"
         shutil.copy2(init_file, backup_file)
     except Exception as e:
@@ -41,11 +60,8 @@ def update_init_file():
         sys.exit(1)
 
     try:
-        with open(init_file, "r", encoding="utf-8") as f:
-            lines = f.readlines()
-
         new_lines = []
-        imported, registered = False, False
+        imported, registered = has_import, has_register
         import_statement = "from .grid import stdcell_grid\n"
         register_statement = "        self.layout().register_pcell(\"stdcell_grid\", stdcell_grid())  # VIAS\n"
 
@@ -53,14 +69,12 @@ def update_init_file():
             new_lines.append(line)
             
             if "import pya" in line and not imported:
-                if not any("from .grid import" in l for l in lines):
-                    new_lines.append(import_statement)
-                    imported = True
+                new_lines.append(import_statement)
+                imported = True
             
             if "# VIAS" in line and not registered:
-                if not any(".register_pcell(\"stdcell_grid\"" in l for l in lines):
-                    new_lines.insert(-1, register_statement)
-                    registered = True
+                new_lines.insert(-1, register_statement)
+                registered = True
 
         with open(init_file, "w", encoding="utf-8") as f:
             f.writelines(new_lines)
