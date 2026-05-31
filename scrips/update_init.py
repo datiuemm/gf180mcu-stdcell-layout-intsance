@@ -41,8 +41,8 @@ def update_init_file():
         sys.exit(1)
 
     full_content = "".join(lines)
-    has_import = "from .grid import stdcell_grid" in full_content
-    has_register = '.register_pcell("stdcell_grid"' in full_content
+    has_import = "from .grid import std_grid" in full_content
+    has_register = '.register_pcell("std_grid"' in full_content
 
     if has_import and has_register:
         sys.exit(0)
