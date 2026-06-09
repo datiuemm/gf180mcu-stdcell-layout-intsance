@@ -57,8 +57,8 @@ def update_init_file():
     try:
         new_lines = []
         imported, registered = has_import, has_register
-        import_statement = "from .grid import stdcell_grid\n"
-        register_statement = "        self.layout().register_pcell(\"stdcell_grid\", stdcell_grid())  # VIAS\n"
+        import_statement = "from .grid import std_grid\n"
+        register_statement = "        self.layout().register_pcell(\"std_grid\", std_grid())  # VIAS\n"
 
         for line in lines:
             new_lines.append(line)
