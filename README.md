@@ -6,11 +6,11 @@ This repository provides automated tools to configure a custom Routing Grid PCel
 
 # 1. Automated PCell Installation
 
-To integrate the `stdcell_grid` PCell into your KLayout PDK library, execute the setup script from the repository root:
+To integrate the `std_grid` PCell into your KLayout PDK library, execute the setup script from the repository root:
 
 ```bash
-chmod +x setup_pcell.sh
-./setup_pcell.sh
+chmod +x setup.sh
+./setup.sh
 ```
 
 ## What this script does
@@ -72,7 +72,7 @@ Performs a sparse checkout to fetch only the `template.gds` file directly from t
 ```text
 .
 ├── README.md
-├── setup_pcell.sh
+├── setup.sh
 ├── run.sh
 ├── layout_generator/
 │   └── grid.py
@@ -94,7 +94,7 @@ PDK
 PDK_ROOT
 ```
 
-- Running `setup_pcell.sh` multiple times is safe and will not create duplicate registration entries.
+- Running `setup.sh` multiple times is safe and will not create duplicate registration entries.
 - The generated workspace is intended for standard-cell layout development and verification using KLayout.
 - This README and some scripts are generated with AI ^^
 
